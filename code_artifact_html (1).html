@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>台灣超商香菸尼古丁、開銷與健康風險評估器</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+        select::-webkit-scrollbar, div::-webkit-scrollbar {
+            width: 6px;
+        }
+        select::-webkit-scrollbar-thumb, div::-webkit-scrollbar-thumb {
+            background-color: #cbd5e1;
+            border-radius: 9999px;
+        }
+    </style>
+</head>
+<body class="bg-slate-100 min-h-screen py-6 px-3 sm:px-6 lg:px-8 text-slate-800">
+    <div class="max-w-6xl mx-auto space-y-6">
+        
+        <!-- 頁面標頭 -->
+        <header class="text-center space-y-3 bg-white p-6 sm:p-8 rounded-3xl shadow-sm border border-slate-200">
+            <div class="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-amber-100 text-amber-600 mb-1">
+                <i class="fa-solid fa-smoking text-2xl"></i>
+            </div>
+            <h1 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+                台灣超商香菸尼古丁、開銷與健康評估器
+            </h1>
+            <p class="text-slate-500 text-sm sm:text-base max-w-3xl mx-auto leading-relaxed">
+                完整收錄台灣超商（7-11、全家等）熱門紙菸、長壽/尊爵系列、日系/美歐/韓系爆珠菸款與國健署審查通過之加熱菸專用菸彈。選取款式即可自動計算物質累積與戒菸財務回報。
+            </p>
+        </header>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+            <!-- 左側：習慣設定表單 (5 cols) -->
+            <section class="lg:col-span-5 bg-white rounded-3xl shadow-sm border border-slate-200 p-6 space-y-5">
+                <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                    <h2 class="text-lg font-bold text-slate-900 flex items-center">
+                        <i class="fa-solid fa-sliders text-indigo-500 mr-2.5"></i>習慣與品牌設定
+                    </h2>
+                    <span class="text-xs bg-indigo-50 text-indigo-600 font-semibold px-2.5 py-1 rounded-full">即時運算</span>
+                </div>
+
+                <!-- 品牌與規格選擇 -->
+                <div class="space-y-2">
+                    <div class="flex justify-between items-center">
+                        <label for="brandSelect" class="block text-sm font-semibold text-slate-700">選擇香菸品牌 / 獨立款式</label>
+                        <span class="text-xs text-slate-400">自動帶入焦油/尼古丁/價格</span>
+                    </div>
+                    <select id="brandSelect" onchange="handleBrandChange()" class="w-full bg-slate-50 border border-slate-300 text-slate-800 rounded-xl p-3 text-sm font-medium focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 focus:outline-none transition-all">
+                        <option value="custom">-- 手動自訂數值 --</option>
+                        
+                        <optgroup label="本土品牌（台灣菸酒 TTL & 特色國產）">
+                            <option value="ll_yellow_soft" data-nic="0.9" data-tar="10" data-price="95" data-packsize="20">長壽 - 軟包黃長壽 (10mg/0.9mg) - $95</option>
+                            <option value="ll_yellow_hard" data-nic="0.9" data-tar="10" data-price="105" data-packsize="20">長壽 - 硬盒黃長壽 (10mg/0.9mg) - $105</option>
+                            <option value="ll_white_hard" data-nic="0.7" data-tar="7" data-price="105" data-packsize="20">長壽 - 白硬盒長壽 (7mg/0.7mg) - $105</option>
+                            <option value="ll_yellow_intl" data-nic="0.9" data-tar="10" data-price="120" data-packsize="20">長壽 - 黃長壽國際包 (10mg/0.9mg) - $120</option>
+                            <option value="ll_white_1mg" data-nic="0.1" data-tar="1" data-price="105" data-packsize="20">長壽 - 1毫克白盒 (1mg/0.1mg) - $105</option>
+                            <option value="gentle_g1" data-nic="0.1" data-tar="1" data-price="110" data-packsize="20">尊爵 - G1 (1mg/0.1mg) - $110</option>
+                            <option value="gentle_g3" data-nic="0.3" data-tar="3" data-price="110" data-packsize="20">尊爵 - G3 (3mg/0.3mg) - $110</option>
+                            <option value="gentle_g6" data-nic="0.6" data-tar="6" data-price="110" data-packsize="20">尊爵 - G6 (6mg/0.6mg) - $110</option>
+                            <option value="gentle_g7" data-nic="0.6" data-tar="7" data-price="110" data-packsize="20">尊爵 - G7 (7mg/0.6mg) - $110</option>
+                            <option value="gentle_g9" data-nic="0.8" data-tar="9" data-price="110" data-packsize="20">尊爵 - G9 (9mg/0.8mg) - $110</option>
+                            <option value="gentle_g10" data-nic="0.8" data-tar="10" data-price="110" data-packsize="20">尊爵 - G10 (10mg/0.8mg) - $110</option>
+                            <option value="gentle_lowsmoke" data-nic="0.5" data-tar="5" data-price="120" data-packsize="20">尊爵 - Low Smoke 低菸臭 (5mg/0.5mg) - $120</option>
+                            <option value="gentle_intl" data-nic="0.9" data-tar="10" data-price="130" data-packsize="20">尊爵 - 尊爵國際包 (10mg/0.9mg) - $130</option>
+                            <option value="gentle_slim_pop" data-nic="0.5" data-tar="5" data-price="120" data-packsize="20">尊爵 - 細支晶球 (5mg/0.5mg) - $120</option>
+                            <option value="np_5" data-nic="0.5" data-tar="5" data-price="100" data-packsize="20">新樂園 - 5mg (5mg/0.5mg) - $100</option>
+                            <option value="np_7" data-nic="0.6" data-tar="7" data-price="100" data-packsize="20">新樂園 - 7mg (7mg/0.6mg) - $100</option>
+                            <option value="np_9" data-nic="0.8" data-tar="9" data-price="100" data-packsize="20">新樂園 - 9mg (9mg/0.8mg) - $100</option>
+                            <option value="np_m" data-nic="0.5" data-tar="5" data-price="105" data-packsize="20">新樂園 - M-Series 薄荷 (5mg/0.5mg) - $105</option>
+                            <option value="alishan_jingtai" data-nic="0.8" data-tar="10" data-price="150" data-packsize="20">阿里山 - 景泰藍 (10mg/0.8mg) - $150</option>
+                            <option value="alishan_cuanmo" data-nic="0.8" data-tar="10" data-price="180" data-packsize="20">阿里山 - 傳墨 (10mg/0.8mg) - $180</option>
+                            <option value="alishan_tianyun" data-nic="0.6" data-tar="6" data-price="160" data-packsize="20">阿里山 - 天韻 (6mg/0.6mg) - $160</option>
+                            <option value="baodao_classic" data-nic="0.8" data-tar="9" data-price="100" data-packsize="20">寶島 - 經典寶島 (9mg/0.8mg) - $100</option>
+                            <option value="c520_rose" data-nic="0.5" data-tar="5" data-price="130" data-packsize="20">520 - 玫瑰涼菸 心形濾嘴 (5mg/0.5mg) - $130</option>
+                            <option value="c520_menthol" data-nic="0.5" data-tar="5" data-price="130" data-packsize="20">520 - 薄荷涼菸 心形濾嘴 (5mg/0.5mg) - $130</option>
+                            <option value="c520_melon" data-nic="0.5" data-tar="5" data-price="130" data-packsize="20">520 - 哈密瓜 心形濾嘴 (5mg/0.5mg) - $130</option>
+                            <option value="oner_red" data-nic="0.8" data-tar="10" data-price="95" data-packsize="20">王牌 ONER - 經典紅 (10mg/0.8mg) - $95</option>
+                        </optgroup>
+
+                        <optgroup label="日系品牌（日本煙草 JT）">
+                            <option value="mevius_original" data-nic="0.8" data-tar="10" data-price="150" data-packsize="20" selected>七星 MEVIUS - 藍牌濃菸 Original (10mg/0.8mg) - $150</option>
+                            <option value="mevius_sky_blue" data-nic="0.6" data-tar="7" data-price="150" data-packsize="20">七星 MEVIUS - Sky Blue 中淡 (7mg/0.6mg) - $150</option>
+                            <option value="mevius_wind_blue" data-nic="0.4" data-tar="4" data-price="150" data-packsize="20">七星 MEVIUS - Wind Blue 風尚 (4mg/0.4mg) - $150</option>
+                            <option value="mevius_one" data-nic="0.1" data-tar="1" data-price="150" data-packsize="20">七星 MEVIUS - One 超淡 (1mg/0.1mg) - $150</option>
+                            <option value="mevius_intl" data-nic="0.9" data-tar="10" data-price="170" data-packsize="20">七星 MEVIUS - 國際長包 100s (10mg/0.9mg) - $170</option>
+                            <option value="mevius_option_purple" data-nic="0.5" data-tar="5" data-price="160" data-packsize="20">七星 MEVIUS - Option 藍莓爆珠 (5mg/0.5mg) - $160</option>
+                            <option value="mevius_option_lemon" data-nic="0.5" data-tar="5" data-price="160" data-packsize="20">七星 MEVIUS - Option 檸檬爆珠 (5mg/0.5mg) - $160</option>
+                            <option value="mevius_option_grape" data-nic="0.5" data-tar="5" data-price="160" data-packsize="20">七星 MEVIUS - Option 葡萄爆珠 (5mg/0.5mg) - $160</option>
+                            <option value="mevius_e_series" data-nic="0.6" data-tar="6" data-price="135" data-packsize="20">七星 MEVIUS - E-Series 平價系列 (6mg/0.6mg) - $135</option>
+                            <option value="mine_black" data-nic="1.0" data-tar="10" data-price="170" data-packsize="20">峰 Mine - 黑峰 (10mg/1.0mg) - $170</option>
+                            <option value="mine_gold" data-nic="0.8" data-tar="8" data-price="160" data-packsize="20">峰 Mine - 金峰 (8mg/0.8mg) - $160</option>
+                            <option value="mine_silver" data-nic="0.6" data-tar="6" data-price="160" data-packsize="20">峰 Mine - 銀峰 (6mg/0.6mg) - $160</option>
+                            <option value="peace_yellow_14" data-nic="1.2" data-tar="14" data-price="250" data-packsize="20">和平 Peace - 黃和平 (14mg/1.2mg) - $250</option>
+                            <option value="peace_yellow_10" data-nic="0.9" data-tar="10" data-price="220" data-packsize="20">和平 Peace - 黃和平 (10mg/0.9mg) - $220</option>
+                            <option value="peace_aroma" data-nic="0.9" data-tar="10" data-price="200" data-packsize="20">和平 Peace - Aroma 芳香款 (10mg/0.9mg) - $200</option>
+                            <option value="pianissimo_peche" data-nic="0.4" data-tar="5" data-price="160" data-packsize="20">碧絲夢 Pianissimo - 水蜜桃 (5mg/0.4mg) - $160</option>
+                            <option value="pianissimo_icene" data-nic="0.5" data-tar="6" data-price="160" data-packsize="20">碧絲夢 Pianissimo - 極涼薄荷 (6mg/0.5mg) - $160</option>
+                        </optgroup>
+
+                        <optgroup label="美歐系大廠品牌">
+                            <option value="winston_caster_1" data-nic="0.1" data-tar="1" data-price="140" data-packsize="20">雲絲頓 Winston - 天香 Caster 1號 (1mg/0.1mg) - $140</option>
+                            <option value="winston_caster_3" data-nic="0.3" data-tar="3" data-price="140" data-packsize="20">雲絲頓 Winston - 天香 Caster 3號 (3mg/0.3mg) - $140</option>
+                            <option value="winston_caster_5" data-nic="0.5" data-tar="5" data-price="140" data-packsize="20">雲絲頓 Winston - 天香 Caster 5號 (5mg/0.5mg) - $140</option>
+                            <option value="winston_caster_7" data-nic="0.7" data-tar="7" data-price="140" data-packsize="20">雲絲頓 Winston - 天香 Caster 7號 (7mg/0.7mg) - $140</option>
+                            <option value="winston_red_ink" data-nic="0.8" data-tar="10" data-price="130" data-packsize="20">雲絲頓 Winston - 紅墨 10mg (10mg/0.8mg) - $130</option>
+                            <option value="winston_blue_ink" data-nic="0.6" data-tar="7" data-price="130" data-packsize="20">雲絲頓 Winston - 藍墨 7mg (7mg/0.6mg) - $130</option>
+                            <option value="winston_us_red" data-nic="0.8" data-tar="10" data-price="125" data-packsize="20">雲絲頓 Winston - 經典美式紅 (10mg/0.8mg) - $125</option>
+                            <option value="winston_us_blue" data-nic="0.6" data-tar="7" data-price="125" data-packsize="20">雲絲頓 Winston - 經典美式藍 (7mg/0.6mg) - $125</option>
+                            <option value="winston_xs_blueberry" data-nic="0.5" data-tar="5" data-price="135" data-packsize="20">雲絲頓 Winston - XS Spark 藍莓晶球 (5mg/0.5mg) - $135</option>
+                            <option value="winston_xs_melon" data-nic="0.5" data-tar="5" data-price="135" data-packsize="20">雲絲頓 Winston - XS Spark 哈密瓜晶球 (5mg/0.5mg) - $135</option>
+                            <option value="marlboro_red" data-nic="0.8" data-tar="10" data-price="150" data-packsize="20">萬寶路 Marlboro - 紅萬 (10mg/0.8mg) - $150</option>
+                            <option value="marlboro_gold" data-nic="0.5" data-tar="6" data-price="150" data-packsize="20">萬寶路 Marlboro - 金萬 (6mg/0.5mg) - $150</option>
+                            <option value="marlboro_white" data-nic="0.3" data-tar="3" data-price="150" data-packsize="20">萬寶路 Marlboro - 白萬 (3mg/0.3mg) - $150</option>
+                            <option value="marlboro_ice_blast" data-nic="0.6" data-tar="8" data-price="160" data-packsize="20">萬寶路 Marlboro - 冰藍 Ice Blast (8mg/0.6mg) - $160</option>
+                            <option value="marlboro_black_menthol" data-nic="0.6" data-tar="8" data-price="160" data-packsize="20">萬寶路 Marlboro - 黑冰 Black Menthol (8mg/0.6mg) - $160</option>
+                            <option value="marlboro_double_burst" data-nic="0.5" data-tar="8" data-price="170" data-packsize="20">萬寶路 Marlboro - 雙爆珠 Purple-Green (8mg/0.5mg) - $170</option>
+                            <option value="marlboro_colorful" data-nic="0.5" data-tar="5" data-price="170" data-packsize="20">萬寶路 Marlboro - 繽紛晶球 (5mg/0.5mg) - $170</option>
+                            <option value="dunhill_red" data-nic="0.9" data-tar="10" data-price="150" data-packsize="20">登喜路 Dunhill - 紅切角 (10mg/0.9mg) - $150</option>
+                            <option value="dunhill_blue" data-nic="0.7" data-tar="7" data-price="150" data-packsize="20">登喜路 Dunhill - 藍切角 (7mg/0.7mg) - $150</option>
+                            <option value="dunhill_gold" data-nic="0.6" data-tar="6" data-price="150" data-packsize="20">登喜路 Dunhill - 金切角 (6mg/0.6mg) - $150</option>
+                            <option value="dunhill_silver" data-nic="0.3" data-tar="3" data-price="150" data-packsize="20">登喜路 Dunhill - 銀切角 (3mg/0.3mg) - $150</option>
+                            <option value="dunhill_finecut" data-nic="0.4" data-tar="4" data-price="155" data-packsize="20">登喜路 Dunhill - Fine Cut (4mg/0.4mg) - $155</option>
+                            <option value="davidoff_black" data-nic="0.9" data-tar="10" data-price="170" data-packsize="20">大衛杜夫 Davidoff - 黑 (10mg/0.9mg) - $170</option>
+                            <option value="davidoff_gold" data-nic="0.7" data-tar="7" data-price="170" data-packsize="20">大衛杜夫 Davidoff - 金 (7mg/0.7mg) - $170</option>
+                            <option value="davidoff_white" data-nic="0.3" data-tar="3" data-price="170" data-packsize="20">大衛杜夫 Davidoff - 白 (3mg/0.3mg) - $170</option>
+                            <option value="davidoff_one" data-nic="0.1" data-tar="1" data-price="170" data-packsize="20">大衛杜夫 Davidoff - 1毫克 (1mg/0.1mg) - $170</option>
+                            <option value="davidoff_intl" data-nic="1.0" data-tar="10" data-price="210" data-packsize="20">大衛杜夫 Davidoff - 寬版國際包 (10mg/1.0mg) - $210</option>
+                            <option value="davidoff_slims" data-nic="0.6" data-tar="6" data-price="170" data-packsize="20">大衛杜夫 Davidoff - Slims 纖細 (6mg/0.6mg) - $170</option>
+                            <option value="kent_1" data-nic="0.1" data-tar="1" data-price="130" data-packsize="20">健牌 KENT - 1毫克 (1mg/0.1mg) - $130</option>
+                            <option value="kent_6" data-nic="0.6" data-tar="6" data-price="130" data-packsize="20">健牌 KENT - 6毫克 (6mg/0.6mg) - $130</option>
+                            <option value="parliament_night_blue" data-nic="0.7" data-tar="7" data-price="160" data-packsize="20">百樂門 Parliament - 凹槽濾嘴 (7mg/0.7mg) - $160</option>
+                            <option value="vogue_menthe" data-nic="0.5" data-tar="5" data-price="150" data-packsize="20">風格 Vogue - 纖細薄荷 (5mg/0.5mg) - $150</option>
+                            <option value="salem_menthol" data-nic="0.7" data-tar="8" data-price="140" data-packsize="20">沙龍 Salem - 美式經典薄荷 (8mg/0.7mg) - $140</option>
+                            <option value="lucky_strike_red" data-nic="0.8" data-tar="10" data-price="125" data-packsize="20">樂吉 Lucky Strike - 經典紅 (10mg/0.8mg) - $125</option>
+                            <option value="lm_red" data-nic="0.8" data-tar="10" data-price="110" data-packsize="20">藍星 L&M - 經典紅 (10mg/0.8mg) - $110</option>
+                            <option value="virginia_slims" data-nic="0.5" data-tar="5" data-price="150" data-packsize="20">維珍妮 Virginia Slims - 涼菸 (5mg/0.5mg) - $150</option>
+                            <option value="more_menthol" data-nic="0.8" data-tar="10" data-price="130" data-packsize="20">摩爾 More - 薄荷 (10mg/0.8mg) - $130</option>
+                            <option value="boss_red" data-nic="0.8" data-tar="10" data-price="95" data-packsize="20">BOSS - 經典紅 (10mg/0.8mg) - $95</option>
+                        </optgroup>
+
+                        <optgroup label="韓系品牌（KT&G）">
+                            <option value="bohem_cigar_1" data-nic="0.1" data-tar="1" data-price="140" data-packsize="20">寶亨 BOHEM - 雪茄 1號 (1mg/0.1mg) - $140</option>
+                            <option value="bohem_cigar_3" data-nic="0.3" data-tar="3" data-price="140" data-packsize="20">寶亨 BOHEM - 雪茄 3號 (3mg/0.3mg) - $140</option>
+                            <option value="bohem_cigar_6" data-nic="0.6" data-tar="6" data-price="140" data-packsize="20">寶亨 BOHEM - 雪茄 6號 (6mg/0.6mg) - $140</option>
+                            <option value="bohem_master" data-nic="0.7" data-tar="7" data-price="160" data-packsize="20">寶亨 BOHEM - Master大師 (7mg/0.7mg) - $160</option>
+                            <option value="bohem_mojito" data-nic="0.5" data-tar="6" data-price="145" data-packsize="20">寶亨 BOHEM - Mojito 薄荷 (6mg/0.5mg) - $145</option>
+                            <option value="bohem_double" data-nic="0.5" data-tar="6" data-price="150" data-packsize="20">寶亨 BOHEM - 雙爆珠 (6mg/0.5mg) - $150</option>
+                            <option value="bohem_mini" data-nic="0.5" data-tar="5" data-price="85" data-packsize="10">寶亨 BOHEM - Mini Slims 小雪茄 (10支裝) (5mg/0.5mg) - $85</option>
+                            <option value="raison_ice_pop" data-nic="0.5" data-tar="5" data-price="140" data-packsize="20">貓咪菸 RAISON - 冰爆珠 (5mg/0.5mg) - $140</option>
+                            <option value="raison_ice_presso" data-nic="0.5" data-tar="6" data-price="140" data-packsize="20">貓咪菸 RAISON - Ice Presso 冰咖啡 (6mg/0.5mg) - $140</option>
+                            <option value="raison_sun_presso" data-nic="0.5" data-tar="6" data-price="140" data-packsize="20">貓咪菸 RAISON - Sun Presso 橘香咖啡 (6mg/0.5mg) - $140</option>
+                            <option value="esse_change" data-nic="0.5" data-tar="5" data-price="130" data-packsize="20">愛喜 ESSE - Change 爆珠極細 (5mg/0.5mg) - $130</option>
+                        </optgroup>
+
+                        <optgroup label="國健署核可加熱菸（專用菸彈品牌）">
+                            <option value="iqos_terea_regular" data-nic="0.5" data-tar="0" data-price="180" data-packsize="20">IQOS TEREA - 原味 (約0.5mg尼古丁) - $180</option>
+                            <option value="iqos_terea_rich_regular" data-nic="0.6" data-tar="0" data-price="180" data-packsize="20">IQOS TEREA - 濃原味 (約0.6mg尼古丁) - $180</option>
+                            <option value="iqos_terea_menthol" data-nic="0.5" data-tar="0" data-price="180" data-packsize="20">IQOS TEREA - 薄荷 (約0.5mg尼古丁) - $180</option>
+                            <option value="iqos_terea_purple" data-nic="0.5" data-tar="0" data-price="180" data-packsize="20">IQOS TEREA - 藍莓 Purple (約0.5mg尼古丁) - $180</option>
+                            <option value="ploom_evo_regular" data-nic="0.5" data-tar="0" data-price="170" data-packsize="20">Ploom EVO - 原味 (約0.5mg尼古丁) - $170</option>
+                            <option value="ploom_evo_green" data-nic="0.5" data-tar="0" data-price="170" data-packsize="20">Ploom EVO - 綠薄荷 (約0.5mg尼古丁) - $170</option>
+                            <option value="ploom_evo_purple" data-nic="0.5" data-tar="0" data-price="175" data-packsize="20">Ploom EVO - 紫爆珠 (約0.5mg尼古丁) - $175</option>
+                            <option value="glo_kent_sticks" data-nic="0.5" data-tar="0" data-price="160" data-packsize="20">GLO KENT 菸彈 - 全系列 (約0.5mg尼古丁) - $160</option>
+                        </optgroup>
+                    </select>
+                </div>
+
+                <!-- 尼古丁與焦油設定 -->
+                <div class="grid grid-cols-2 gap-3">
+                    <div class="space-y-1">
+                        <label for="nicotineInput" class="block text-xs font-semibold text-slate-600">尼古丁 (mg/支)</label>
+                        <input type="number" id="nicotineInput" step="0.01" min="0" value="0.8" oninput="markAsCustom(); calculateAll();" class="w-full bg-slate-50 border border-slate-300 text-slate-800 rounded-xl p-2.5 text-sm font-semibold focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+                    </div>
+                    <div class="space-y-1">
+                        <label for="tarInput" class="block text-xs font-semibold text-slate-600">焦油 (mg/支)</label>
+                        <input type="number" id="tarInput" step="0.1" min="0" value="10" oninput="markAsCustom(); calculateAll();" class="w-full bg-slate-50 border border-slate-300 text-slate-800 rounded-xl p-2.5 text-sm font-semibold focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+                    </div>
+                </div>
+
+                <!-- 價格與包裝規格 -->
+                <div class="grid grid-cols-2 gap-3">
+                    <div class="space-y-1">
+                        <label for="priceInput" class="block text-xs font-semibold text-slate-600">每包價格 (NTD)</label>
+                        <div class="relative">
+                            <span class="absolute left-3 top-2.5 text-slate-400 text-sm">$</span>
+                            <input type="number" id="priceInput" min="0" value="150" oninput="markAsCustom(); calculateAll();" class="w-full bg-slate-50 border border-slate-300 text-slate-800 rounded-xl pl-7 pr-3 py-2.5 text-sm font-semibold focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+                        </div>
+                    </div>
+                    <div class="space-y-1">
+                        <label for="packSizeInput" class="block text-xs font-semibold text-slate-600">每包支數</label>
+                        <input type="number" id="packSizeInput" min="1" value="20" oninput="calculateAll()" class="w-full bg-slate-50 border border-slate-300 text-slate-800 rounded-xl p-2.5 text-sm font-semibold focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+                    </div>
+                </div>
+
+                <!-- 每日抽菸量 -->
+                <div class="space-y-2 pt-2">
+                    <div class="flex justify-between items-center">
+                        <label for="cigsPerDaySlider" class="text-sm font-semibold text-slate-700">每日抽菸量</label>
+                        <div class="flex items-center space-x-1">
+                            <input type="number" id="cigsPerDayInput" min="1" max="100" value="15" oninput="syncCigsFromInput(this.value)" class="w-16 bg-indigo-50 border border-indigo-200 text-indigo-700 font-extrabold text-right rounded-lg p-1 text-sm focus:outline-none">
+                            <span class="text-xs font-bold text-indigo-600">支</span>
+                        </div>
+                    </div>
+                    <input type="range" id="cigsPerDaySlider" min="1" max="60" value="15" oninput="syncCigsFromSlider(this.value)" class="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-indigo-600">
+                    <div class="flex justify-between text-[11px] text-slate-400 font-medium">
+                        <span>1支</span>
+                        <span>10支(半包)</span>
+                        <span>20支(1包)</span>
+                        <span>40支(2包)</span>
+                    </div>
+                </div>
+
+                <!-- 菸齡 -->
+                <div class="space-y-1">
+                    <label for="yearsSmokingInput" class="block text-sm font-semibold text-slate-700">抽菸年資 (年)</label>
+                    <input type="number" id="yearsSmokingInput" min="0.1" step="0.5" value="5" oninput="calculateAll()" class="w-full bg-slate-50 border border-slate-300 text-slate-800 rounded-xl p-3 text-sm font-semibold focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+                </div>
+            </section>
+
+            <!-- 右側：評估結果區 (7 cols) -->
+            <section class="lg:col-span-7 space-y-6">
+                
+                <!-- 物質攝取與包年評估 -->
+                <div class="bg-white rounded-3xl shadow-sm border border-slate-200 p-6 space-y-4">
+                    <div class="flex flex-wrap items-center justify-between border-b border-slate-100 pb-3 gap-2">
+                        <h2 class="text-lg font-bold text-slate-900 flex items-center">
+                            <i class="fa-solid fa-vial text-emerald-500 mr-2.5"></i>物質攝取與健康評估
+                        </h2>
+                        <span id="packYearBadge" class="text-xs px-3 py-1 rounded-full bg-amber-100 text-amber-800 font-bold transition-all">
+                            菸齡指數計算中
+                        </span>
+                    </div>
+
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-center">
+                        <div class="p-3.5 bg-slate-50 rounded-2xl border border-slate-100">
+                            <p class="text-xs font-medium text-slate-500 mb-1">每日尼古丁</p>
+                            <p class="text-xl font-black text-slate-800" id="dailyNicotine">12.0 <span class="text-xs font-normal text-slate-500">mg</span></p>
+                        </div>
+                        <div class="p-3.5 bg-slate-50 rounded-2xl border border-slate-100">
+                            <p class="text-xs font-medium text-slate-500 mb-1">每日焦油</p>
+                            <p class="text-xl font-black text-slate-800" id="dailyTar">150 <span class="text-xs font-normal text-slate-500">mg</span></p>
+                        </div>
+                        <div class="p-3.5 bg-slate-50 rounded-2xl border border-slate-100">
+                            <p class="text-xs font-medium text-slate-500 mb-1">每年抽菸量</p>
+                            <p class="text-xl font-black text-slate-800" id="yearlyCigs">5,475 <span class="text-xs font-normal text-slate-500">支</span></p>
+                        </div>
+                        <div class="p-3.5 bg-slate-50 rounded-2xl border border-slate-100">
+                            <p class="text-xs font-medium text-slate-500 mb-1">至今累積總數</p>
+                            <p class="text-xl font-black text-slate-800" id="totalCigs">27,375 <span class="text-xs font-normal text-slate-500">支</span></p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 金額開銷計算 -->
+                <div class="bg-white rounded-3xl shadow-sm border border-slate-200 p-6 space-y-4">
+                    <h2 class="text-lg font-bold text-slate-900 border-b border-slate-100 pb-3 flex items-center">
+                        <i class="fa-solid fa-coins text-amber-500 mr-2.5"></i>財務開銷累積
+                    </h2>
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-center">
+                        <div class="p-3.5 bg-amber-50/60 rounded-2xl border border-amber-100">
+                            <p class="text-xs font-medium text-amber-800 mb-1">每日花費</p>
+                            <p class="text-lg font-extrabold text-amber-900" id="costDaily">$113</p>
+                        </div>
+                        <div class="p-3.5 bg-amber-50/60 rounded-2xl border border-amber-100">
+                            <p class="text-xs font-medium text-amber-800 mb-1">每月花費</p>
+                            <p class="text-lg font-extrabold text-amber-900" id="costMonthly">$3,375</p>
+                        </div>
+                        <div class="p-3.5 bg-amber-50/60 rounded-2xl border border-amber-100">
+                            <p class="text-xs font-medium text-amber-800 mb-1">每年花費</p>
+                            <p class="text-lg font-extrabold text-amber-900" id="costYearly">$41,063</p>
+                        </div>
+                        <div class="p-3.5 bg-amber-600 text-white rounded-2xl shadow-sm">
+                            <p class="text-xs font-medium text-amber-100 mb-1">至今總共開銷</p>
+                            <p class="text-lg font-black" id="costLifetime">$205,313</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 戒菸正向回報時間軸 -->
+                <div class="bg-white rounded-3xl shadow-sm border border-slate-200 p-6 space-y-4">
+                    <h2 class="text-lg font-bold text-slate-900 border-b border-slate-100 pb-3 flex items-center">
+                        <i class="fa-solid fa-heart-pulse text-rose-500 mr-2.5"></i>若現在開始戒菸的正向回報
+                    </h2>
+                    <div class="space-y-3.5 text-sm text-slate-600">
+                        <div class="flex items-start space-x-3">
+                            <div class="flex-shrink-0 w-8 h-8 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center font-bold text-xs mt-0.5">
+                                20分
+                            </div>
+                            <div class="bg-slate-50 p-3 rounded-2xl flex-grow border border-slate-100">
+                                <strong class="text-slate-900">血壓與心跳恢復正常：</strong>末梢血液循環逐漸改善，手腳溫度回升。
+                            </div>
+                        </div>
+
+                        <div class="flex items-start space-x-3">
+                            <div class="flex-shrink-0 w-8 h-8 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center font-bold text-xs mt-0.5">
+                                12小時
+                            </div>
+                            <div class="bg-slate-50 p-3 rounded-2xl flex-grow border border-slate-100">
+                                <strong class="text-slate-900">一氧化碳濃度下降：</strong>血液中的一氧化碳降至正常水平，血氧恢復充沛。
+                            </div>
+                        </div>
+
+                        <div class="flex items-start space-x-3">
+                            <div class="flex-shrink-0 w-8 h-8 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center font-bold text-xs mt-0.5">
+                                1年
+                            </div>
+                            <div class="bg-slate-50 p-3 rounded-2xl flex-grow border border-slate-100">
+                                <strong class="text-slate-900">心臟病風險減半：</strong>可省下約 <span id="saveOneYear" class="font-extrabold text-emerald-600">$41,063</span> 元，罹患冠狀動脈心臟病風險降低 50%。
+                            </div>
+                        </div>
+
+                        <div class="flex items-start space-x-3">
+                            <div class="flex-shrink-0 w-8 h-8 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center font-bold text-xs mt-0.5">
+                                10年
+                            </div>
+                            <div class="bg-slate-50 p-3 rounded-2xl flex-grow border border-slate-100">
+                                <strong class="text-slate-900">肺癌風險顯著降低：</strong>可累積省下 <span id="saveTenYear" class="font-extrabold text-emerald-600">$410,625</span> 元，肺癌死亡風險降至吸菸者的一半。
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+        </div>
+
+        <!-- 頁尾警語與戒菸專線資訊 -->
+        <footer class="bg-rose-900 text-rose-50 p-6 sm:p-8 rounded-3xl shadow-sm border border-rose-800 space-y-4">
+            <div class="flex items-center space-x-3 text-amber-400 font-extrabold text-lg border-b border-rose-800/80 pb-3">
+                <i class="fa-solid fa-triangle-exclamation text-xl"></i>
+                <span>吸菸有害健康 警語與戒菸協助資訊</span>
+            </div>
+            
+            <p class="text-xs sm:text-sm leading-relaxed text-rose-200">
+                吸菸會導致癌症、心血管疾病、肺氣腫及早產。孕婦吸菸易導致胎兒體重不足。二手菸與三手菸亦會對家人與周遭人的健康造成嚴重威脅。
+            </p>
+
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs pt-2">
+                <div class="bg-rose-950/60 p-3.5 rounded-2xl border border-rose-800/60 flex items-center space-x-3">
+                    <i class="fa-solid fa-phone-volume text-emerald-400 text-2xl"></i>
+                    <div>
+                        <p class="text-rose-300 font-medium">衛生福利部 免費戒菸專線</p>
+                        <p class="text-emerald-300 font-black text-lg">0800-636363</p>
+                    </div>
+                </div>
+                
+                <div class="bg-rose-950/60 p-3.5 rounded-2xl border border-rose-800/60 flex items-center space-x-3">
+                    <i class="fa-brands fa-line text-emerald-400 text-2xl"></i>
+                    <div>
+                        <p class="text-rose-300 font-medium">戒菸專線 LINE@ 官方帳號</p>
+                        <p class="text-white font-bold">搜尋 ID: <span class="text-emerald-300">@tsh0800636363</span></p>
+                    </div>
+                </div>
+
+                <div class="bg-rose-950/60 p-3.5 rounded-2xl border border-rose-800/60 flex items-center space-x-3">
+                    <i class="fa-solid fa-hospital-user text-amber-400 text-2xl"></i>
+                    <div>
+                        <p class="text-rose-300 font-medium">戒菸門診醫療諮詢</p>
+                        <p class="text-white font-medium">可洽全台各大醫院與診所家醫科</p>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+    </div>
+
+    <!-- 邏輯腳本 -->
+    <script>
+        function handleBrandChange() {
+            const select = document.getElementById('brandSelect');
+            const selectedOption = select.options[select.selectedIndex];
+            
+            if (select.value !== 'custom') {
+                const nic = selectedOption.getAttribute('data-nic');
+                const tar = selectedOption.getAttribute('data-tar');
+                const price = selectedOption.getAttribute('data-price');
+                const packSize = selectedOption.getAttribute('data-packsize');
+                
+                if (nic !== null) document.getElementById('nicotineInput').value = nic;
+                if (tar !== null) document.getElementById('tarInput').value = tar;
+                if (price !== null) document.getElementById('priceInput').value = price;
+                if (packSize !== null) document.getElementById('packSizeInput').value = packSize;
+            }
+            calculateAll();
+        }
+
+        function markAsCustom() {
+            document.getElementById('brandSelect').value = 'custom';
+        }
+
+        function syncCigsFromSlider(val) {
+            document.getElementById('cigsPerDayInput').value = val;
+            calculateAll();
+        }
+
+        function syncCigsFromInput(val) {
+            const num = parseInt(val) || 1;
+            document.getElementById('cigsPerDaySlider').value = Math.min(num, 60);
+            calculateAll();
+        }
+
+        function calculateAll() {
+            const nicPerCig = parseFloat(document.getElementById('nicotineInput').value) || 0;
+            const tarPerCig = parseFloat(document.getElementById('tarInput').value) || 0;
+            const packPrice = parseFloat(document.getElementById('priceInput').value) || 0;
+            const packSize = parseInt(document.getElementById('packSizeInput').value) || 20;
+            const cigsPerDay = parseInt(document.getElementById('cigsPerDayInput').value) || 0;
+            const yearsSmoking = parseFloat(document.getElementById('yearsSmokingInput').value) || 0;
+
+            // 1. 物質攝取計算
+            const dailyNicotine = nicPerCig * cigsPerDay;
+            const dailyTar = tarPerCig * cigsPerDay;
+            const yearlyCigs = cigsPerDay * 365;
+            const totalCigs = yearlyCigs * yearsSmoking;
+
+            document.getElementById('dailyNicotine').innerHTML = `${dailyNicotine.toFixed(1)} <span class="text-xs font-normal text-slate-500">mg</span>`;
+            document.getElementById('dailyTar').innerHTML = `${dailyTar.toFixed(0)} <span class="text-xs font-normal text-slate-500">mg</span>`;
+            document.getElementById('yearlyCigs').innerHTML = `${Math.round(yearlyCigs).toLocaleString()} <span class="text-xs font-normal text-slate-500">支</span>`;
+            document.getElementById('totalCigs').innerHTML = `${Math.round(totalCigs).toLocaleString()} <span class="text-xs font-normal text-slate-500">支</span>`;
+
+            // 2. 包年指數 (Pack-Years = (每日支數 / 包裝規格) * 年資)
+            const packYears = (cigsPerDay / (packSize || 20)) * yearsSmoking;
+            const packYearBadge = document.getElementById('packYearBadge');
+            
+            if (packYears >= 20) {
+                packYearBadge.innerText = `菸齡指數: ${packYears.toFixed(1)} 包年 (高風險)`;
+                packYearBadge.className = "text-xs px-3 py-1 rounded-full bg-rose-100 text-rose-800 font-extrabold border border-rose-200";
+            } else if (packYears >= 10) {
+                packYearBadge.innerText = `菸齡指數: ${packYears.toFixed(1)} 包年 (中風險)`;
+                packYearBadge.className = "text-xs px-3 py-1 rounded-full bg-amber-100 text-amber-800 font-extrabold border border-amber-200";
+            } else {
+                packYearBadge.innerText = `菸齡指數: ${packYears.toFixed(1)} 包年 (低風險)`;
+                packYearBadge.className = "text-xs px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 font-extrabold border border-emerald-200";
+            }
+
+            // 3. 財務開銷計算
+            const costPerCig = packSize > 0 ? packPrice / packSize : 0;
+            const costDaily = costPerCig * cigsPerDay;
+            const costMonthly = costDaily * (365 / 12);
+            const costYearly = costDaily * 365;
+            const costLifetime = costYearly * yearsSmoking;
+
+            document.getElementById('costDaily').innerText = `$${Math.round(costDaily).toLocaleString()}`;
+            document.getElementById('costMonthly').innerText = `$${Math.round(costMonthly).toLocaleString()}`;
+            document.getElementById('costYearly').innerText = `$${Math.round(costYearly).toLocaleString()}`;
+            document.getElementById('costLifetime').innerText = `$${Math.round(costLifetime).toLocaleString()}`;
+
+            // 4. 戒菸節省金錢
+            document.getElementById('saveOneYear').innerText = `$${Math.round(costYearly).toLocaleString()}`;
+            document.getElementById('saveTenYear').innerText = `$${Math.round(costYearly * 10).toLocaleString()}`;
+        }
+
+        // 頁面初始化
+        window.onload = function() {
+            calculateAll();
+        };
+    </script>
+</body>
+</html>
